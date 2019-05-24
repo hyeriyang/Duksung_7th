@@ -41,3 +41,4 @@ def delete(request,pk):
     notice=Notice.objects.get(id=pk)
     notice.delete()
     return redirect('show')
+
