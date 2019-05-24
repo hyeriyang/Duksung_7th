@@ -4,6 +4,7 @@
     <h1>제목: {{notice.title}}</h1>
     <p>내용:{{notice.body}}</p>
     {{notice.update_counter}}
+    <p>첨부파일:{{notice.file}}</p>
     <p>등록일:{{notice.update_date}}</p>
     <a href="{% url 'delete' pk=notice.pk %}">삭제</a>
 </div>

@@ -1,0 +1,18 @@
+<div class ="container">
+    <a href="{% url 'post_list' %}">뒤로</a>
+    <a href="{% url 'edit' pk=tip.pk %}">글 수정하기</a>
+    <h1>제목:{{tip.title}}</h1>
+    <p>내용:{{tip.body}}</p>
+    <p>등록일:{{tip.update_date}}</p>
+    <form action="{% url 'delete' pk=tip.pk %}" method="GET">
+            {% csrf_token %}
+            <input type="submit" value="삭제">
+    </form> 
+    {% if tip.file %}
+    <form action="{% url 'download' pk=tip.pk %}" method="GET">
+            {% csrf_token %}
+            <input type="submit" value="다운로드">
+    </form>
+   {% endif %}
+</div>
+<p style="display:none">{{tip.update_counter}}</p>

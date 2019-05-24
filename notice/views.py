@@ -2,16 +2,19 @@ from django.shortcuts import render,get_object_or_404,redirect
 from .forms import NoticeForm
 from .models import Notice
 from django.utils import timezone
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse,HttpResponseRedirect
 
 # Create your views here.
 def post(request):
     if request.method=="POST":
-        form=NoticeForm(request.POST)
+        form=NoticeForm(request.POST, request.FILES)
         if form.is_valid():
             notice=form.save(commit=False)
             notice.update_date=timezone.now()
             notice.save()
-            return redirect('show')
+            return HttpResponseRedirect('/notice/show')
     else:
         form=NoticeForm()
         return render(request,'post.html',{'form':form})

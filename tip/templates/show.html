@@ -1,0 +1,73 @@
+<table class='table'>
+    <thead>
+        <tr>
+        <th>No.</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>등록일</th>
+        <th>조회수</th>
+        
+        </tr>
+    </thead>
+ <tbody>
+     {% if total_list%}
+        {%for tip in total_list %}
+        <tr>
+            <td>{{tip.id}}</td>
+ 
+       <td><a href="{% url 'detail' tip.id %}">
+            {{tip.title}}
+        </a></td>
+        
+        <td>{{tip.body}}</td>
+       <td><small class="text-muted">{{tip.update_date}}</small></td>
+        <td><small>{{tip.hit}}</small></td>
+      
+
+        </tr>
+
+        {%endfor%}
+    {% endif %}
+
+ </tbody>
+
+
+</table>
+<hr>
+<form action="{% url 'post' %}" method="GET">
+        {% csrf_token %}
+        <input type="submit" value="글작성">
+</form>
+
+
+
+<div class="page_display">
+  <!-- 
+      mathfilters 를 사용하려면
+      1. pip install django-mathfilters
+      2. settings.py 에 INSTALLED_APPS 에 'mathfilters' 추가
+      3. 아래에 로딩 표현식 추가
+   -->
+  {% load mathfilters %}
+  {% if startPageNum != 1 %}
+      <a href="?pageNum={{startPageNum | sub:1}}">[이전]</a>
+  {% else %}
+      <a href="javascript:" class="muted">[이전]</a>
+  {% endif %}
+  
+  {% for i in bottomPages %}
+      {% if i == pageNum %}
+          <a class="active" href="?pageNum={{i }}">{{ i}}</a>
+      {% else %}
+          <a href="?pageNum={{i }}">{{ i}}</a>
+      {% endif %}
+     
+  {% endfor %}
+  
+  
+  {% if totalPageCount > endPageNum %}
+      <a href="?pageNum={{endPageNum | add:1}}">[다음]</a>
+  {% else %}
+      <a href="javascript:" class="muted">[다음]</a>
+  {% endif %}
+</div>
