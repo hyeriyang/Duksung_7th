@@ -1,11 +1,65 @@
 <h1><a href="{% url 'post' %}"><글 작성하러 가기></a></h1>
-{%for notice in notices.all%}
-    <div class="container">
-        <a href="{% url 'detail' notice.id %}">
-            <h5>제목:{{notice.title}}</h5>
-        </a>
-        <p>내용: {{notice.body}}</p>
-        <p>등록일:{{notice.update_date}}</p>
-        <small class="text-muted">{{notice.up_date}}</small>
-    </div>
-{%endfor%}
+
+
+<table class='table'>
+    <thead>
+        <tr>
+        <th>No.</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>등록일</th>
+        <th>조회수</th>
+        
+        </tr>
+    </thead>
+ <tbody>
+     {% if total_list%}
+        {%for notice in total_list %}
+        <tr>
+            <td>{{notice.id}}</td>
+ 
+       <td><a href="{% url 'detail' notice.id %}">
+            {{notice.title}}
+        </a></td>
+        
+        <td>{{notice.body}}</td>
+       <td><small class="text-muted">{{notice.update_date}}</small></td>
+        <td><small>{{notice.hit}}</small></td>
+        </tr>
+
+        {%endfor%}
+    {% endif %}
+
+ </tbody>
+
+
+</table>
+
+
+<div class="page_display">
+    <!--
+        mathfilters 를 사용하려면
+        1.pip install django-mathfilters
+    -->
+    {% load mathfilters %}
+    {% if startPageNum != 1 %}
+        <a href="?pageNum={{startPageNum|sub:1}}">이전</a>
+    {% else %}
+        <a href="javascript:;" class="muted">[이전]</a>
+    {% endif %}
+
+    {% for i in bottomPages %}
+        {% if i == pageNum %}
+            <a class="active" href="?pageNum={{i}}">{{ i}}</a>
+        {% else %}
+            <a href="?pageNum={{i}}">{{ i}}</a>
+        {% endif %}
+
+    {% endfor %}
+
+    {% if toPageCount > endPageNum %}
+        <a href="?pageNum={{endPageNum| add:1}}">[다음]</a>
+    {% else %}
+        <a href="javascript:;" class="muted">[다음]</a>
+    {% endif %}
+</div>
