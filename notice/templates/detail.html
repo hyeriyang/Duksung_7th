@@ -1,9 +1,9 @@
 <div class="container">
     <a href="{% url 'show' %}">뒤로</a>
-    <a href="{% url 'edit' pk=notice.pk %}">글 수정하기</a>
+    <!--<a href="{% url 'edit' pk=notice.pk %}">글 수정하기</a>-->
     <h1>제목: {{notice.title}}</h1>
     <p>내용:{{notice.body}}</p>
-    <p>첨부파일:{{notice.file}}</p>
+    <p><a href="{% url 'download' pk=notice.pk %}">다운로드</a></p>
     <p>등록일:{{notice.update_date}}</p>
     <a href="{% url 'delete' pk=notice.pk %}">삭제</a>
 </div>
