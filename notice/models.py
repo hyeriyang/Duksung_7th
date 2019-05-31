@@ -4,8 +4,9 @@ from django.db import models
 class Notice(models.Model):
     title=models.CharField(max_length=300)
     body=models.TextField()
-    file=models.FileField(upload_to='document/')
+    file=models.FileField(null=True)
     update_date=models.DateTimeField(auto_now=True)
+    
     
     def __str__(self):
         return self.title
