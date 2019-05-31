@@ -3,7 +3,7 @@ from .models import Tip
 
 class TipForm(forms.ModelForm):
     class Meta:
-        model=Tip
+        model=TIp
         fields=['title','body','file']
 
     def __init__(self,*args,**kwargs):

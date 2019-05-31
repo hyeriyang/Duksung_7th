@@ -1,9 +1,10 @@
+import os
 from django.shortcuts import render,get_object_or_404,redirect
 from .forms import NoticeForm
 from .models import Notice
 from django.utils import timezone
-from django.conf import settings
-from django.core.files.storage import FileSystemStorage
+#from django.conf import settings
+#from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
 
@@ -41,6 +42,7 @@ def edit(request,pk):
     else:
         form=NoticeForm(instance=notice)
         return render(request,'edit.html',{'form':form})
+
 
 def delete(request,pk):
     notice=Notice.objects.get(id=pk)
@@ -91,3 +93,13 @@ def post_list(request):
                 'startPageNum':startPageNum,
                 'endPageNum':endPageNum})
 
+
+def download(request,pk):
+    notice_download=get_object_or_404(Notice,pk=pk)
+    file_url=notice_download.file.url[1:]
+    if os.path.exists(file_url):
+        with open(file_url,'rb') as fh:
+            response=HttpResponse(fh.read(),content_type="application/octet-stream")
+            response['attachment']='inline:filename='+os.path.basename(file_url)
+            return response
+        raise Http404   

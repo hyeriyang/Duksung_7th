@@ -20,9 +20,9 @@ def post(request):
         return render(request,'post.html',{'form':form})
 
 
-def show(request):
-    tips=Tip.objects.order_by('-id')
-    return render(request,'show.html',{'tips':tips})
+#def show(request):
+ #   tips=Tip.objects.order_by('-id')
+  #  return render(request,'show.html',{'tips':tips})
 
 
 def detail(request,tip_id):
@@ -79,7 +79,7 @@ def post_list(request):
     paginator=Paginator(total_list,PAGE_ROW_COUNT)
     pageNum=request.GET.get('pageNum')
 
-    totalPageCount=paginator.num_pages
+    toPageCount=paginator.num_pages
 
     try:
         total_list=paginator.page(pageNum)
@@ -90,15 +90,30 @@ def post_list(request):
         total_list=paginator.page(paginator.num_pages)
         pageNum=paginator.num_pages
     pageNum=int(pageNum)
-
-    startPageNum=1+((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT
+    
+    if pageNum<=PAGE_DISPLAY_COUNT:
+         startPageNum=1
+    else:
+        startPageNum=1+((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT
+    
     endPageNum=startPageNum+PAGE_DISPLAY_COUNT-1
-    if totalPageCount<endPageNum:
-        endPageNum=totalPageCount
+    if toPageCount<endPageNum:
+        endPageNum=toPageCount
+   
+
     bottomPages=range(int(startPageNum),int(endPageNum+1))
+    
+    #no
+
+    tipsnum=range(int(Tip.objects.count()),int(1))
+    
+
 
     return render(request,'show.html',{
-       
+        'tipsnum':tipsnum,
         'total_list':total_list,
         'pageNum':pageNum,
-        'bottomPages':bottomPages,'totalPageCount':totalPageCount,'startPageNum':startPageNum,'endPageNum':endPageNum})
+        'bottomPages':bottomPages,
+        'toPageCount':toPageCount,
+        'startPageNum':startPageNum,
+        'endPageNum':endPageNum})

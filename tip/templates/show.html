@@ -11,10 +11,10 @@
     </thead>
  <tbody>
      {% if total_list%}
-        {%for tip in total_list %}
-        <tr>
-            <td>{{tip.id}}</td>
- 
+     {%for tip in total_list %}
+     <tr>  
+
+        <td>{{tip.id}}</td>
        <td><a href="{% url 'detail' tip.id %}">
             {{tip.title}}
         </a></td>
@@ -33,6 +33,7 @@
 
 
 </table>
+
 <hr>
 <form action="{% url 'post' %}" method="GET">
         {% csrf_token %}
@@ -50,24 +51,25 @@
    -->
   {% load mathfilters %}
   {% if startPageNum != 1 %}
-      <a href="?pageNum={{startPageNum | sub:1}}">[이전]</a>
+      <a href="?pageNum={{startPageNum|sub:1}}">[이전]</a>
   {% else %}
-      <a href="javascript:" class="muted">[이전]</a>
+      <a href="javascript:;" class="muted">[이전]</a>
   {% endif %}
   
   {% for i in bottomPages %}
       {% if i == pageNum %}
-          <a class="active" href="?pageNum={{i }}">{{ i}}</a>
+          <a class="active" href="?pageNum={{i}}">{{ i}}</a>
       {% else %}
-          <a href="?pageNum={{i }}">{{ i}}</a>
+          <a href="?pageNum={{i}}">{{ i}}</a>
       {% endif %}
      
   {% endfor %}
   
   
-  {% if totalPageCount > endPageNum %}
+  
+  {% if toPageCount > endPageNum %}
       <a href="?pageNum={{endPageNum | add:1}}">[다음]</a>
   {% else %}
-      <a href="javascript:" class="muted">[다음]</a>
+      <a href="javascript:;" class="muted">[다음]</a>
   {% endif %}
 </div>
